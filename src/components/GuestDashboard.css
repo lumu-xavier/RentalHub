@@ -1,0 +1,203 @@
+.guest-dashboard {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  padding: 2rem;
+}
+
+.dashboard-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.8rem 1.5rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+  position: relative;
+  bottom: -1rem;
+}
+
+.tab-btn:hover {
+  color: var(--accent-gold);
+}
+
+.tab-btn.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+.browse-section {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.search-container {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.search-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-field label {
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.search-field input[type="text"],
+.search-field input[type="range"] {
+  padding: 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.search-controls .btn {
+  width: 100%;
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.no-results,
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  grid-column: 1 / -1;
+}
+
+.no-results p,
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.empty-state p:first-child {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Bookings Section */
+.bookings-list {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 800px;
+}
+
+.booking-card {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.booking-card:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.booking-header h3 {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.status {
+  padding: 0.4rem 0.8rem;
+  background: var(--success);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status.pending {
+  background: var(--info);
+}
+
+.status.cancelled {
+  background: var(--error);
+}
+
+.booking-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.booking-details p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.booking-details .price {
+  color: var(--accent-gold);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .guest-dashboard {
+    padding: 1rem;
+  }
+
+  .search-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .properties-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dashboard-tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+    text-align: left;
+  }
+}
