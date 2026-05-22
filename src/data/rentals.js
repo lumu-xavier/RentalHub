@@ -1,100 +1,28 @@
-export const rentalData = [
+const rentals = [
   {
     id: 1,
-    name: "Modern Kampala Studio",
+    title: "Modern Kampala Penthouse",
     location: "Kampala, Uganda",
-    price: 50000,
-    currency: "UGX",
-    rating: 4.8,
-    reviews: 45,
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&h=350&fit=crop",
-    type: "Studio",
-    beds: 1,
-    baths: 1,
-    amenities: ["WiFi", "Kitchen", "AC", "Parking"],
-    description: "Cozy modern studio in the heart of Kampala with all amenities"
+    price: "UGX 250,000/night",
+    rating: "4.9",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811"
   },
   {
     id: 2,
-    name: "Spacious Family Home",
+    title: "Luxury Lakeview Villa",
     location: "Entebbe, Uganda",
-    price: 120000,
-    currency: "UGX",
-    rating: 4.9,
-    reviews: 62,
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=350&fit=crop",
-    type: "House",
-    beds: 3,
-    baths: 2,
-    amenities: ["WiFi", "Pool", "Garden", "Kitchen", "AC"],
-    description: "Beautiful family home with pool and garden near the lake"
+    price: "UGX 450,000/night",
+    rating: "5.0",
+    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6"
   },
   {
     id: 3,
-    name: "Luxury Apartment",
-    location: "Kololo, Kampala",
-    price: 200000,
-    currency: "UGX",
-    rating: 4.7,
-    reviews: 38,
-    image: "https://images.unsplash.com/photo-1502635221390-81f1b83b20ad?w=500&h=350&fit=crop",
-    type: "Apartment",
-    beds: 2,
-    baths: 2,
-    amenities: ["WiFi", "Gym", "Security", "AC", "Restaurant"],
-    description: "Stunning luxury apartment with city views and premium facilities"
-  },
-  {
-    id: 4,
-    name: "Cozy Guest House",
-    location: "Mukono, Uganda",
-    price: 35000,
-    currency: "UGX",
-    rating: 4.6,
-    reviews: 29,
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=350&fit=crop",
-    type: "Guest House",
-    beds: 1,
-    baths: 1,
-    amenities: ["WiFi", "Kitchen", "Laundry", "Parking"],
-    description: "Charming guest house perfect for couples or solo travelers"
-  },
-  {
-    id: 5,
-    name: "Beachfront Villa",
-    location: "Masaka, Uganda",
-    price: 150000,
-    currency: "UGX",
-    rating: 4.9,
-    reviews: 71,
-    image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=500&h=350&fit=crop",
-    type: "Villa",
-    beds: 4,
-    baths: 3,
-    amenities: ["WiFi", "Beach Access", "Pool", "Garden", "AC"],
-    description: "Stunning beachfront villa with private access to the lake"
-  },
-  {
-    id: 6,
-    name: "Business Rental",
-    location: "Kampala City Center",
-    price: 80000,
-    currency: "UGX",
-    rating: 4.5,
-    reviews: 21,
-    image: "https://images.unsplash.com/photo-1495707902905-78189c7cf290?w=500&h=350&fit=crop",
-    type: "Apartment",
-    beds: 2,
-    baths: 1,
-    amenities: ["WiFi", "Workspace", "AC", "Security", "Parking"],
-    description: "Perfect for business travelers with dedicated workspace"
+    title: "Cozy Guest House in Jinja",
+    location: "Jinja, Uganda",
+    price: "UGX 120,000/night",
+    rating: "4.7",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
   }
 ];
 
-export const categories = [
-  { id: 1, name: "Houses", emoji: "🏠" },
-  { id: 2, name: "Apartments", emoji: "🏢" },
-  { id: 3, name: "Guest Houses", emoji: "🛏️" },
-  { id: 4, name: "Villas", emoji: "🏛️" },
-  { id: 5, name: "Studios", emoji: "📦" }
-];
+export default rentals;

@@ -1,47 +1,49 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+:root {
+  --primary: #fbbf24;
+  --dark-bg: #0a0a0a;
+  --card-bg: #171717;
+  --text-light: #e2e8f0;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--text-light);
 }
 
-html {
-  scroll-behavior: smooth;
+/* Glass Cards */
+.glass-card {
+  background: rgba(23, 23, 23, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 24px;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* Property Cards */
+.property-card {
+  transition: all 0.4s ease;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
+.property-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px -12px rgb(251 191 36 / 0.25);
 }
 
-input, select {
-  font-family: inherit;
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: black;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgb(251 191 36 / 0.4);
 }

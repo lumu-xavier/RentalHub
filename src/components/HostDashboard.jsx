@@ -1,176 +1,54 @@
-import React, { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
-import { mockProperties, mockBookings } from '../data/mockData'
-import HostPropertyForm from './HostPropertyForm'
-import './HostDashboard.css'
+import React from 'react';
 
-export default function HostDashboard() {
-  const { userProperties, addProperty, userBookings } = useAuth()
-  const [activeTab, setActiveTab] = useState('properties')
-  const [showForm, setShowForm] = useState(false)
-
-  const totalEarnings = mockProperties.reduce((sum, p) => sum + p.earnings, 0)
-  const allPropertyBookings = mockBookings.length
-
+const HostDashboard = () => {
   return (
-    <div className="host-dashboard">
-      {/* Stats Section */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon">🏠</div>
-          <div className="stat-content">
-            <p className="stat-label">Total Properties</p>
-            <p className="stat-value">{mockProperties.length}</p>
+    <div className="min-h-screen bg-[#0a0a0a] pt-10 px-6 text-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-10">
+          <div>
+            <h1 className="text-5xl font-bold">Host Dashboard</h1>
+            <p className="text-gray-400 text-xl mt-2">Welcome back! Manage your properties</p>
+          </div>
+          <button className="btn-primary px-8 py-4 rounded-2xl text-lg font-semibold">
+            + Add New Property
+          </button>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="glass-card p-8 rounded-3xl">
+            <p className="text-gray-400">Total Properties</p>
+            <h3 className="text-6xl font-bold text-yellow-400 mt-2">5</h3>
+          </div>
+          <div className="glass-card p-8 rounded-3xl">
+            <p className="text-gray-400">Total Bookings</p>
+            <h3 className="text-6xl font-bold text-yellow-400 mt-2">12</h3>
+          </div>
+          <div className="glass-card p-8 rounded-3xl">
+            <p className="text-gray-400">Total Earnings</p>
+            <h3 className="text-6xl font-bold text-yellow-400 mt-2">UGX 16.0M</h3>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">📅</div>
-          <div className="stat-content">
-            <p className="stat-label">Total Bookings</p>
-            <p className="stat-value">{allPropertyBookings}</p>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon">💰</div>
-          <div className="stat-content">
-            <p className="stat-label">Total Earnings</p>
-            <p className="stat-value">UGX {(totalEarnings / 1000000).toFixed(1)}M</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="dashboard-tabs">
-        <button
-          className={`tab-btn ${activeTab === 'properties' ? 'active' : ''}`}
-          onClick={() => setActiveTab('properties')}
-        >
-          🏘️ My Properties
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
-          onClick={() => setActiveTab('bookings')}
-        >
-          📅 Bookings
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'earnings' ? 'active' : ''}`}
-          onClick={() => setActiveTab('earnings')}
-        >
-          💰 Earnings
-        </button>
-      </div>
-
-      {/* Properties Tab */}
-      {activeTab === 'properties' && (
-        <div className="properties-section">
-          <div className="section-header">
-            <h2>Manage Your Properties</h2>
-            <button
-              className="btn btn-primary"
-              onClick={() => setShowForm(true)}
-            >
-              + Add New Property
-            </button>
-          </div>
-
-          {showForm && (
-            <HostPropertyForm
-              onSubmit={(newProperty) => {
-                addProperty(newProperty)
-                setShowForm(false)
-              }}
-              onCancel={() => setShowForm(false)}
+        {/* My Properties */}
+        <h2 className="text-3xl font-bold mb-6">My Properties</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="glass-card rounded-3xl overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1613490493576-7fde63acd811" 
+              alt="Penthouse" 
+              className="w-full h-64 object-cover"
             />
-          )}
-
-          <div className="properties-list">
-            {mockProperties.map(property => (
-              <div key={property.id} className="property-item">
-                <div className="property-image">
-                  <img src={property.image} alt={property.name} />
-                </div>
-                <div className="property-info">
-                  <h3>{property.name}</h3>
-                  <p className="location">📍 {property.location}</p>
-                  <div className="property-details">
-                    <span>🛏️ {property.beds} beds</span>
-                    <span>🚿 {property.baths} baths</span>
-                    <span>⭐ {property.rating}</span>
-                  </div>
-                </div>
-                <div className="property-stats">
-                  <p>Price: <strong>UGX {property.price.toLocaleString()}/night</strong></p>
-                  <p>Earnings: <strong>UGX {property.earnings.toLocaleString()}</strong></p>
-                  <button className="btn btn-secondary">Edit</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Bookings Tab */}
-      {activeTab === 'bookings' && (
-        <div className="bookings-section">
-          <h2>Property Bookings</h2>
-          {mockBookings.length > 0 ? (
-            <div className="bookings-list">
-              {mockBookings.map(booking => (
-                <div key={booking.id} className="booking-item">
-                  <div className="booking-info">
-                    <h3>{booking.propertyName}</h3>
-                    <p>Guest: <strong>{booking.guestName}</strong></p>
-                    <p>Dates: <strong>{booking.checkIn} to {booking.checkOut}</strong></p>
-                  </div>
-                  <div className="booking-stats">
-                    <p className="nights">{booking.nights} nights</p>
-                    <p className="earnings">UGX {booking.totalPrice.toLocaleString()}</p>
-                    <span className={`status ${booking.status}`}>✓ {booking.status}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="empty-state">
-              <p>No bookings yet</p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Earnings Tab */}
-      {activeTab === 'earnings' && (
-        <div className="earnings-section">
-          <h2>Earnings Overview</h2>
-          <div className="earnings-summary">
-            <div className="earnings-card">
-              <p className="earnings-label">Total Earnings</p>
-              <p className="earnings-amount">UGX {totalEarnings.toLocaleString()}</p>
-            </div>
-            <div className="earnings-card">
-              <p className="earnings-label">This Month</p>
-              <p className="earnings-amount">UGX {(totalEarnings * 0.3).toLocaleString()}</p>
-            </div>
-            <div className="earnings-card">
-              <p className="earnings-label">Pending Payouts</p>
-              <p className="earnings-amount">UGX {(totalEarnings * 0.1).toLocaleString()}</p>
+            <div className="p-6">
+              <h3 className="text-2xl font-semibold">Modern Kampala Penthouse</h3>
+              <p className="text-yellow-400">UGX 150,000 / night</p>
+              <button className="mt-6 w-full btn-primary py-3 rounded-2xl">Manage Property</button>
             </div>
           </div>
-
-          <div className="earnings-detail">
-            <h3>Earnings by Property</h3>
-            {mockProperties.map(property => (
-              <div key={property.id} className="earnings-row">
-                <span>{property.name}</span>
-                <span>UGX {property.earnings.toLocaleString()}</span>
-              </div>
-            ))}
-          </div>
         </div>
-      )}
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default HostDashboard;

@@ -1,190 +1,71 @@
-import React, { useState } from 'react'
-import { mockProperties, mockBookings, mockReviews } from '../data/mockData'
-import { useAuth } from '../context/AuthContext'
-import GuestPropertyCard from './GuestPropertyCard'
-import PropertyDetailsModal from './PropertyDetailsModal'
-import './GuestDashboard.css'
+import React, { useState } from 'react';
+import rentals from '../data/rentals';   // We'll create/update this
 
-export default function GuestDashboard() {
-  const { favorites, addFavorite, userBookings, addBooking, reviews, addReview } = useAuth()
-  const [activeTab, setActiveTab] = useState('browse')
-  const [selectedProperty, setSelectedProperty] = useState(null)
-  const [searchLocation, setSearchLocation] = useState('')
-  const [priceRange, setPriceRange] = useState(300000)
-  const [filteredProperties, setFilteredProperties] = useState(mockProperties)
+const GuestDashboard = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [locationFilter, setLocationFilter] = useState('All');
 
-  const handleSearch = () => {
-    let filtered = mockProperties
-    if (searchLocation) {
-      filtered = filtered.filter(p =>
-        p.location.toLowerCase().includes(searchLocation.toLowerCase()) ||
-        p.name.toLowerCase().includes(searchLocation.toLowerCase())
-      )
-    }
-    filtered = filtered.filter(p => p.price <= priceRange)
-    setFilteredProperties(filtered)
-  }
-
-  const handleBookNow = (property, checkIn, checkOut) => {
-    const nights = Math.ceil(
-      (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
-    )
-    addBooking({
-      propertyId: property.id,
-      propertyName: property.name,
-      guestName: 'You',
-      checkIn,
-      checkOut,
-      nights,
-      totalPrice: property.price * nights,
-      status: 'confirmed'
-    })
-    setSelectedProperty(null)
-  }
+  const filtered = rentals.filter(p => 
+    p.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (locationFilter === 'All' || p.location.includes(locationFilter))
+  );
 
   return (
-    <div className="guest-dashboard">
-      {/* Navigation Tabs */}
-      <div className="dashboard-tabs">
-        <button
-          className={`tab-btn ${activeTab === 'browse' ? 'active' : ''}`}
-          onClick={() => setActiveTab('browse')}
-        >
-          🔍 Browse Properties
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'favorites' ? 'active' : ''}`}
-          onClick={() => setActiveTab('favorites')}
-        >
-          ❤️ Favorites ({favorites.length})
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
-          onClick={() => setActiveTab('bookings')}
-        >
-          📅 My Bookings ({userBookings.length})
-        </button>
-      </div>
-
-      {/* Browse Tab */}
-      {activeTab === 'browse' && (
-        <div className="browse-section">
-          <div className="search-container">
-            <div className="search-controls">
-              <div className="search-field">
-                <label>📍 Location</label>
-                <input
-                  type="text"
-                  placeholder="Search by location or property name..."
-                  value={searchLocation}
-                  onChange={(e) => setSearchLocation(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                />
-              </div>
-
-              <div className="search-field">
-                <label>💰 Max Price: UGX {priceRange.toLocaleString()}</label>
-                <input
-                  type="range"
-                  min="50000"
-                  max="300000"
-                  step="10000"
-                  value={priceRange}
-                  onChange={(e) => setPriceRange(Number(e.target.value))}
-                />
-              </div>
-
-              <button className="btn btn-primary" onClick={handleSearch}>
-                Search
-              </button>
-            </div>
-          </div>
-
-          <div className="properties-grid">
-            {filteredProperties.length > 0 ? (
-              filteredProperties.map(property => (
-                <GuestPropertyCard
-                  key={property.id}
-                  property={property}
-                  isFavorite={favorites.includes(property.id)}
-                  onFavorite={() => addFavorite(property.id)}
-                  onView={() => setSelectedProperty(property)}
-                />
-              ))
-            ) : (
-              <div className="no-results">
-                <p>No properties found matching your criteria</p>
-              </div>
-            )}
-          </div>
+    <div className="min-h-screen bg-[#0a0a0a] pt-10 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold mb-4">Discover Premium Stays</h1>
+          <p className="text-xl text-gray-400">Handpicked luxury rentals across Uganda</p>
         </div>
-      )}
 
-      {/* Favorites Tab */}
-      {activeTab === 'favorites' && (
-        <div className="favorites-section">
-          {favorites.length > 0 ? (
-            <div className="properties-grid">
-              {mockProperties
-                .filter(p => favorites.includes(p.id))
-                .map(property => (
-                  <GuestPropertyCard
-                    key={property.id}
-                    property={property}
-                    isFavorite={true}
-                    onFavorite={() => addFavorite(property.id)}
-                    onView={() => setSelectedProperty(property)}
-                  />
-                ))}
-            </div>
-          ) : (
-            <div className="empty-state">
-              <p>❤️ No favorites yet</p>
-              <p>Start adding properties you love!</p>
-            </div>
-          )}
+        <div className="flex flex-col md:flex-row gap-4 mb-12">
+          <input
+            type="text"
+            placeholder="Search by name, location or type..."
+            className="flex-1 bg-zinc-900 border border-yellow-500/30 rounded-3xl px-8 py-5 text-lg focus:border-yellow-400 focus:outline-none"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <select 
+            className="bg-zinc-900 border border-yellow-500/30 rounded-3xl px-8 py-5 text-lg"
+            onChange={(e) => setLocationFilter(e.target.value)}
+          >
+            <option value="All">All Locations</option>
+            <option value="Kampala">Kampala</option>
+            <option value="Entebbe">Entebbe</option>
+            <option value="Jinja">Jinja</option>
+          </select>
         </div>
-      )}
 
-      {/* Bookings Tab */}
-      {activeTab === 'bookings' && (
-        <div className="bookings-section">
-          {userBookings.length > 0 ? (
-            <div className="bookings-list">
-              {userBookings.map(booking => (
-                <div key={booking.id} className="booking-card">
-                  <div className="booking-header">
-                    <h3>{booking.propertyName}</h3>
-                    <span className={`status ${booking.status}`}>
-                      ✓ {booking.status}
-                    </span>
-                  </div>
-                  <div className="booking-details">
-                    <p>📅 {booking.checkIn} to {booking.checkOut}</p>
-                    <p>🛏️ {booking.nights} nights</p>
-                    <p className="price">💰 UGX {booking.totalPrice.toLocaleString()}</p>
-                  </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filtered.map(property => (
+            <div key={property.id} className="property-card glass-card rounded-3xl overflow-hidden group cursor-pointer">
+              <div className="relative">
+                <img 
+                  src={property.image} 
+                  alt={property.title} 
+                  className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute top-5 right-5 bg-black/80 px-4 py-1.5 rounded-full text-sm font-medium">
+                  {property.price}
                 </div>
-              ))}
+              </div>
+              <div className="p-7">
+                <h3 className="text-2xl font-semibold mb-2">{property.title}</h3>
+                <p className="text-yellow-400 text-lg">{property.location}</p>
+                <div className="flex justify-between mt-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">⭐</span>
+                    <span className="text-xl">{property.rating}</span>
+                  </div>
+                  <button className="btn-primary px-8 py-3 rounded-2xl">Book Now</button>
+                </div>
+              </div>
             </div>
-          ) : (
-            <div className="empty-state">
-              <p>📅 No bookings yet</p>
-              <p>Browse properties and make your first booking!</p>
-            </div>
-          )}
+          ))}
         </div>
-      )}
-
-      {/* Property Details Modal */}
-      {selectedProperty && (
-        <PropertyDetailsModal
-          property={selectedProperty}
-          onClose={() => setSelectedProperty(null)}
-          onBook={handleBookNow}
-          isGuest={true}
-        />
-      )}
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default GuestDashboard;
